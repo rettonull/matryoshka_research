@@ -506,7 +506,7 @@ And the payload is retrieved from the response with **IWinHttpRequest::get_Respo
 140002187 call    qword ptr [rax+80h] ; get_ResponseText
 ```
 
-At this point the payload is in memory and gets written out to the randomly-named file by a call at ```140002242``` (**MATRYKA_12**) using ***ZwWriteFile***.
+At this point the payload is in memory and gets written out to the randomly-named file by a call at ```140002242``` (**MATRYKA_12**) using **ZwWriteFile**.
 
 All that's left to do is some cleanup and calling **NtCreateUserProcess** from ```140001B1B``` (**MATRYKA_9**) to launch the payload file.
 
