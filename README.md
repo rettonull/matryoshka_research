@@ -111,7 +111,7 @@ Armed with this information, we can trace out the nested calls along with the AP
 The vast majority of the call chain seems tied up in the ```ecx = 1b, 7, 4``` loop, 
 with ```[rdx]``` and ```[rdx+8]``` always 0 and not meaningfully contributing to execution control.
 
-From here on, a call to the recursive function with ```ecx = x``` will simply be called **MTRYKA_x** to keep things simple.
+From here on, a call to the recursive function with ```ecx = x``` will simply be called **MATRYKA_x** to keep things simple.
 
 ## Getting loopy
 
@@ -121,13 +121,13 @@ We can log all the writes from one of them and look for clusters.
 Examining the first one, we can see something sensible emerge:
 ```
 Mem Addr    RIP        In Call    Size  Hex  Ascii
-fbeaef4950  14000142f  MTRYKA_7   2     4e   N
-fbeaef4951  1400028bd  MTRYKA_1b  1     0
-fbeaef4952  14000142f  MTRYKA_7   2     74   t
-fbeaef4953  1400028db  MTRYKA_1b  1     0
-fbeaef4954  14000142f  MTRYKA_7   2     43   C
-fbeaef4955  1400028bd  MTRYKA_1b  1     0
-fbeaef4956  14000142f  MTRYKA_7   2     72   r
+fbeaef4950  14000142f  MATRYKA_7   2     4e   N
+fbeaef4951  1400028bd  MATRYKA_1b  1     0
+fbeaef4952  14000142f  MATRYKA_7   2     74   t
+fbeaef4953  1400028db  MATRYKA_1b  1     0
+fbeaef4954  14000142f  MATRYKA_7   2     43   C
+fbeaef4955  1400028bd  MATRYKA_1b  1     0
+fbeaef4956  14000142f  MATRYKA_7   2     72   r
 ```
 
 This ends up spelling out L"NtCreateUserProcess" so we're getting somewhere.
@@ -135,23 +135,23 @@ This ends up spelling out L"NtCreateUserProcess" so we're getting somewhere.
 We can clean this up a bit and put everything into context by assembling writes made by ```14000142f``` across multiple iterations
 (advancing to a new line anytime a null is written):
 ```
-      MTRYKA_a
-         MTRYKA_5
-            MTRYKA_6
+      MATRYKA_a
+         MATRYKA_5
+            MATRYKA_6
              A_SHAFinal
              A_SHAInit
              ...
              NtCreateTransactionManager
              NtCreateUserProcess
-         MTRYKA_5
-            MTRYKA_6
+         MATRYKA_5
+            MATRYKA_6
              A_SHAFinal
              A_SHAInit
              ...
              LdrLoadAlternateResourceModuleEx
              LdrLoadDll
-         MTRYKA_5
-            MTRYKA_6
+         MATRYKA_5
+            MATRYKA_6
 ```
 
 These loops appear to actually be implementing **GetProcAddress** by scanning the entire import table of a DLL 
@@ -160,7 +160,7 @@ until they find what they want.
 We've been recording writes, though.  So the loops have to actually be copying all of these names somewhere. 
 What ends up happening is that each procedure name is copied to a buffer then hashed before being checked against a search hash.
 
-As we can see here, **MTRYKA_a** makes repeated calls to **MTRYKA_5** with ```[rdx+24h] = SEARCH_HASH```, 
+As we can see here, **MATRYKA_a** makes repeated calls to **MATRYKA_5** with ```[rdx+24h] = SEARCH_HASH```, 
 loading the returned procedure addresses into a table:
 ```
 140001906 loc_140001906:
@@ -177,7 +177,7 @@ loading the returned procedure addresses into a table:
 140001937 mov     [rdi+84B8h], rax                ; LdrLoadDll address
 ```
 
-**MTRYKA_5** then handles the searching for each procedure, with **MATRYKA_4** hashing each name:
+**MATRYKA_5** then handles the searching for each procedure, with **MATRYKA_4** hashing each name:
 ```
 140001171 mov     ecx, r14d	                  ; 1b
 140001174 mov     [rdi+8588h], rax
@@ -241,17 +241,17 @@ Searching the disassembly text for the regular expression ```[0-9A-F]{2}00[0-9A-
 and setting debugger breakpoints near the end of each construction, we can find the following being built:
 ```
 Address    In Call     String
-140001CA6  MTRYKA_14   L"OleAut32.dll"
-140001D80  MTRYKA_13   L"Combase.dll"
-140001FDA  MTRYKA_12   L"GET"
-140001FFB  MTRYKA_12   L"https://samples.vx-underground.org/root/Samples/cmd.exe"
-140002498  MTRYKA_f    L"LOCALAPPDATA"
-14000250B  MTRYKA_f    L"\\Device\\CNG"
-140002684  MTRYKA_f    L"?\\\\?"
-140002AEC  MTRYKA_18   L"root\\cimv2"
-140002B68  MTRYKA_18   L"WQL"
-140002B82  MTRYKA_18   L"SELECT * FROM Win32_PingStatus WHERE Address=\"172.67.136.136\""
-140002CD8  MTRYKA_18   L"StatusCode"
+140001CA6  MATRYKA_14   L"OleAut32.dll"
+140001D80  MATRYKA_13   L"Combase.dll"
+140001FDA  MATRYKA_12   L"GET"
+140001FFB  MATRYKA_12   L"https://samples.vx-underground.org/root/Samples/cmd.exe"
+140002498  MATRYKA_f    L"LOCALAPPDATA"
+14000250B  MATRYKA_f    L"\\Device\\CNG"
+140002684  MATRYKA_f    L"?\\\\?"
+140002AEC  MATRYKA_18   L"root\\cimv2"
+140002B68  MATRYKA_18   L"WQL"
+140002B82  MATRYKA_18   L"SELECT * FROM Win32_PingStatus WHERE Address=\"172.67.136.136\""
+140002CD8  MATRYKA_18   L"StatusCode"
 ```
 
 We can't find the COM CLSIDs and UUIDs that way since they're not widechar strings, 
@@ -263,7 +263,7 @@ CoCreateInstance   rcx => 16-byte object CLSID
 So we can record writes and backtrack similar to what we did to initially examine loop writes earlier.
 
 What we find is that the CLSID for **WinHttpRequest** {2087c2f4-2cef-4953-a8ab-66779b670495} 
-is constructed in **MTRYKA_12**:
+is constructed in **MATRYKA_12**:
 ```
 140001EBC mov     dword ptr [rsp+60h], 2087C2F4h
 140001EC4 xor     ecx, ecx
@@ -304,7 +304,7 @@ We saw a call to **ZwDeviceIoControlFile** during the API logging, as well as th
 
 This is a low-level interface for obtaining randomly generated numbers [[4]](https://github.com/gtworek/PSBits/blob/master/Misc/IOCTL_KSEC_RNG.c), and since there aren't any other obvious random values needed for the program's operation, this seems like a good place to start looking.
 
-Matryoshka implements this in **MTRYKA_f** by calling **NtCreateFile** on ```L"\\Device\\CNG"``` at ```1400025B4``` to open a handle to the interface, 
+Matryoshka implements this in **MATRYKA_f** by calling **NtCreateFile** on ```L"\\Device\\CNG"``` at ```1400025B4``` to open a handle to the interface, 
 followed by a call to **NtDeviceIoControlFile** supplying the handle, a 16-byte receiving buffer, and the appropriate *IoControlCode*:
 ```
 1400025CC mov     rcx, [rbp+900h+FileHandle]
