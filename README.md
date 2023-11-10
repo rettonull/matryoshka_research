@@ -1,7 +1,7 @@
 **Analysis of the Matryoshka Bootstrap Loader**  
 By ret_to_null <<ret_to_null@proton.me>>
 
-## Background and Overview
+### Background and Overview
 
 On October 19, 2023, [vx-underground](https://www.vx-underground.org/) publicly released the executable binary for Matryoshka, an experimental bootstrap loader for Windows 10, 
 issuing an open challenge to reverse engineer it and "tell us how you think it works." [[1]](https://twitter.com/vxunderground/status/1715088076811235487?t=_GvY26TtEHWW3Gg7A-uDRg&s=19)
@@ -12,7 +12,7 @@ While currently innocuous, it could easily be adapted to download and execute a 
 Let's take a detailed look at what it does and how it does it.  Accompanying this analysis is some custom tooling [[2]](https://github.com/rettonull/matryoshka_research) built to help examine it. 
 These tools were used to produce many of the listings seen throughout, and can hopefully be adapted for use on future iterations of the loader.
 
-## API Analysis
+### API Analysis
 
 The first step was essentially sandboxing to get a broad understanding of what the loader does.
 
