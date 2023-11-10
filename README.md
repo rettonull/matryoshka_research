@@ -1,4 +1,4 @@
-**Analysis of the Matryoshka Bootstrap Loader**  
+#### Analysis of the Matryoshka Bootstrap Loader
 By ret_to_null <<ret_to_null@proton.me>>
 
 #### Background and Overview
@@ -12,7 +12,7 @@ While currently innocuous, it could easily be adapted to download and execute a 
 Let's take a detailed look at what it does and how it does it.  Accompanying this analysis is some custom tooling [[2]](https://github.com/rettonull/matryoshka_research) built to help examine it. 
 These tools were used to produce many of the listings seen throughout, and can hopefully be adapted for use on future iterations of the loader.
 
-### API Analysis
+#### API Analysis
 
 The first step was essentially sandboxing to get a broad understanding of what the loader does.
 
@@ -55,7 +55,7 @@ Eg:
 
 With this surface-level understanding of what it's doing, we can start to examine how it accomplishes all of this in detail.
 
-## Control flow overview
+#### Control flow overview
 
 The entire program consists of one giant function that is called recursively.  
 Let's explore the steps needed to unravel the execution flow into something understandable.
@@ -113,7 +113,7 @@ with ```[rdx]``` and ```[rdx+8]``` always 0 and not meaningfully contributing to
 
 From here on, a call to the recursive function with ```ecx = x``` will simply be called **MATRYKA_x** to keep things simple.
 
-## Getting loopy
+#### Getting loopy
 
 It initially seems plausible that the long loops could be what's unpacking strings or other hardcoded data.
 
@@ -220,7 +220,7 @@ loading the returned procedure addresses into a table:
 Now we know how library procedures are found, but we still didn't figure out where any of our data comes from, 
 so we'll look for that next.
 
-## String things
+#### String things
 
 Looking around the disassembly, we can spot some strings being written to memory piecewise, 
 with a run like:
@@ -293,7 +293,7 @@ Others are just hardcoded into the binary's data section:
 
 The last missing piece of the data puzzle is the generation of the random filename.
 
-## Name game
+#### Name game
 
 As a reminder, the downloaded payload gets saved to a randomized location of the form:
 ```
@@ -333,7 +333,7 @@ Generated filename: "%LOCALAPPDATA%\c149e734687a45.exe"
 This use of the low-level RNG seems to be the primary reason this loader requires Windows 10 and up. 
 It could probably be readily extended for use on other platforms at the cost of giving up a bit of entropy in the filename.
 
-## Common Object Model (COM) Usage
+#### Common Object Model (COM) Usage
 
 Here we run out of clever titles but get to see how Matryoshka uses COM objects to implement its network behavior.
 
@@ -510,7 +510,7 @@ At this point the payload is in memory and gets written out to the randomly-name
 
 All that's left to do is some cleanup and calling **NtCreateUserProcess** from ```140001B1B``` (**MATRYKA_9**) to launch the payload file.
 
-## Conclusion
+#### Conclusion
 
 Matryoshka's recursive structure introduces some unique analysis challenges.
 
@@ -519,7 +519,7 @@ but it's easy to see how a more complex system of variables determining what eac
 
 As with its recursive calls, it will be interesting to see where future iterations of this loader go.
 
-## References
+#### References
 
 [1] **Matryoshka binary release**  
 <https://twitter.com/vxunderground/status/1715088076811235487?t=_GvY26TtEHWW3Gg7A-uDRg&s=19>
