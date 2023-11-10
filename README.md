@@ -489,7 +489,7 @@ Then unsurprisingly, **IWinHttpRequest::Open** is called on the target URL:
 ...
 140002119 mov     rax, [rcx]               ; IWinHttpRequest vtable
 ...
-140002125 call    qword ptr [rax+48h] ; Open
+140002125 call    qword ptr [rax+48h]      ; Open
 ```
 
 The request is sent with **IWinHttpRequest::Send**:
@@ -499,11 +499,11 @@ The request is sent with **IWinHttpRequest::Send**:
 
 And the payload is retrieved from the response with **IWinHttpRequest::get_ResponseText**:
 ```
-140002176 mov     rcx, [r12]          ; IWinHttpRequest
+140002176 mov     rcx, [r12]           ; IWinHttpRequest
 14000217A lea     r14, [rdi+8580h]
-140002181 mov     rdx, r14            ; &bstrResponse
-140002184 mov     rax, [rcx]          ; IWinHttpRequest vtable
-140002187 call    qword ptr [rax+80h] ; get_ResponseText
+140002181 mov     rdx, r14             ; &bstrResponse
+140002184 mov     rax, [rcx]           ; IWinHttpRequest vtable
+140002187 call    qword ptr [rax+80h]  ; get_ResponseText
 ```
 
 At this point the payload is in memory and gets written out to the randomly-named file by a call at ```140002242``` (**MATRYKA_12**) using **ZwWriteFile**.
