@@ -1,4 +1,4 @@
-#### Analysis of the Matryoshka Bootstrap Loader
+**Analysis of the Matryoshka Bootstrap Loader**  
 By ret_to_null <<ret_to_null@proton.me>>
 
 #### Background and Overview
