@@ -120,7 +120,7 @@ It initially seems plausible that the long loops could be what's unpacking strin
 We can log all the writes from one of them and look for clusters.  
 Examining the first one, we can see something sensible emerge:
 ```
-Mem Addr    RIP        In Call    Size  Hex  Ascii
+Mem Addr    RIP        In Call     Size  Hex  Ascii
 fbeaef4950  14000142f  MATRYKA_7   2     4e   N
 fbeaef4951  1400028bd  MATRYKA_1b  1     0
 fbeaef4952  14000142f  MATRYKA_7   2     74   t
