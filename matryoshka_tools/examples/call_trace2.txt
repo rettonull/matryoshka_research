@@ -1,0 +1,8 @@
+Loaded main module C:\Users\charl\Desktop\Matryoshka\Matryoshka.exe at 7ff6d0690000
+text base:        7ff6d0691000 (140001000)
+function start:   7ff6d0691000 (140001000)
+function return:  7ff6d0692e07 (140002e07)
+
+7ff6d06911fc (1400011fc)	mov rcx, qword ptr [rdi+0x70]           MATRYKA_4
+7ff6d0691171 (140001171)	mov ecx, r14d                           MATRYKA_5
+7ff6d0691ca6 (140001ca6)	mov dword ptr [rbp-0x60], 0x6c004f      MATRYKA_14
