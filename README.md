@@ -3,7 +3,7 @@ By ret_to_null
 
 ## Background and Overview
 
-On October 19, 2023, **vx-underground** publicly released the executable binary for Matryoshka, an experimental bootstrap loader for Windows 10, 
+On October 19, 2023, [vx-underground](https://www.vx-underground.org/) publicly released the executable binary for Matryoshka, an experimental bootstrap loader for Windows 10, 
 issuing an open challenge to reverse engineer it and "tell us how you think it works." [[1]](https://twitter.com/vxunderground/status/1715088076811235487?t=_GvY26TtEHWW3Gg7A-uDRg&s=19)
 
 In its current form, Matryoshka downloads a copy of cmd.exe to a temporary folder under a randomized name and executes it. 
