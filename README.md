@@ -179,7 +179,7 @@ loading the returned procedure addresses into a table:
 
 **MATRYKA_5** then handles the searching for each procedure, with **MATRYKA_4** hashing each name:
 ```
-140001171 mov     ecx, r14d	                ; 1b
+140001171 mov     ecx, r14d                   ; 1b
 140001174 mov     [rdi+8588h], rax
 14000117B mov     qword ptr [rdi+8590h], 410h
 140001186 call    sub_140001000               ; MATRYKA_1b
@@ -207,11 +207,11 @@ loading the returned procedure addresses into a table:
 140001205 jmp     short loc_14000121A   ; bottom block -- loop conditional
 
 140001207 loc_140001207:
-140001207 movzx   eax, byte ptr [rcx]  ; char tmp = *unhashed
+140001207 movzx   eax, byte ptr [rcx]   ; char tmp = *unhashed
 14000120A add     rcx, 2
-14000120E xor     edx, eax             ; hash ^= tmp
-140001210 mov     [rdi+70h], rcx       ; unhashed pointer += 2 (wchar)
-140001214 imul    edx, 1000193h        ; hash *= 1000193h
+14000120E xor     edx, eax              ; hash ^= tmp
+140001210 mov     [rdi+70h], rcx        ; unhashed pointer += 2 (wchar)
+140001214 imul    edx, 1000193h         ; hash *= 1000193h
 
 14000121A loc_14000121A:
 14000121A cmp     [rcx], si             ; null-terminator comparison
@@ -388,12 +388,12 @@ This is all handled in **MATRYKA_18**.
 First an **IWbemLocator** interface of **WbemAdministrativeLocator** is acquired:
 ```
 140002A94 lea     r14, [rdi+8550h]
-140002A9B xor     edx, edx               ; pUnkOuter = 0
+140002A9B xor     edx, edx                 ; pUnkOuter = 0
 140002A9D lea     r9, IWbemLocator_UUID
-140002AA4 mov     [rsp+20h], r14         ; pIWbemLocator
-140002AA9 lea     r8d, [r15-17h]         ; CLSCTX_INPROC_SERVER
+140002AA4 mov     [rsp+20h], r14           ; pIWbemLocator
+140002AA9 lea     r8d, [r15-17h]           ; CLSCTX_INPROC_SERVER
 140002AAD lea     rcx, WbemAdministrativeLocator_CLSID
-140002AB4 call    qword ptr [rdi+8538h]  ; CoCreateInstance
+140002AB4 call    qword ptr [rdi+8538h]    ; CoCreateInstance
 ```
 
 **IWbemLocator** has only one method, **ConnectServer**, which is used to acquire an **IWbemServices** interface:
@@ -418,15 +418,15 @@ First an **IWbemLocator** interface of **WbemAdministrativeLocator** is acquired
 
 **IWbemServices::ExecQuery** is used to run the WQL ping query we discovered earlier:
 ```
-140002B50 mov     rcx, [rdi+8558h] ; IWbemServices
+140002B50 mov     rcx, [rdi+8558h]  ; IWbemServices
 140002B57 lea     r8, [rdi+8560h]
-140002B5E mov     [rsp+28h], r8	   ; pIEnumWbemClassObject
+140002B5E mov     [rsp+28h], r8     ; pIEnumWbemClassObject
 ...
-140002B63 lea     rdx, [rsp+70h]   ; L"WQL"
+140002B63 lea     rdx, [rsp+70h]    ; L"WQL"
 ...
-140002B70 lea     r8, [rbp-10h]    ; L"SELECT * FROM Win32_PingStatus..."
+140002B70 lea     r8, [rbp-10h]     ; L"SELECT * FROM Win32_PingStatus..."
 ...
-140002B7C mov     r9d, 20h         ; WBEM_FLAG_FORWARD_ONLY
+140002B7C mov     r9d, 20h          ; WBEM_FLAG_FORWARD_ONLY
 ...
 140002C63 mov     rax, [rcx]           ; IWbemServices vtable
 140002C66 mov     [rsp+20h], rsi       ; pCtx = 0
