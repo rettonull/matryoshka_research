@@ -179,7 +179,7 @@ loading the returned procedure addresses into a table:
 
 **MATRYKA_5** then handles the searching for each procedure, with **MATRYKA_4** hashing each name:
 ```
-140001171 mov     ecx, r14d	                  ; 1b
+140001171 mov     ecx, r14d	                ; 1b
 140001174 mov     [rdi+8588h], rax
 14000117B mov     qword ptr [rdi+8590h], 410h
 140001186 call    sub_140001000               ; MATRYKA_1b
