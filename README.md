@@ -368,7 +368,7 @@ with a handle to its **INetworkListManager** interface obtained:
 140002912 call    qword ptr [rdi+8538h]         ; CoCreateInstance
 ```
 
-If the object is successfully created, a method [[8]](https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/nf-netlistmgr-inetworklistmanager-get_isconnectedtointernet) is called from INetworkListManager's vtable:
+If the object is successfully created, a method [[8]](https://learn.microsoft.com/en-us/windows/win32/api/netlistmgr/nf-netlistmgr-inetworklistmanager-get_isconnectedtointernet) is called from **INetworkListManager**'s vtable:
 ```
 14000292F mov     rcx, [rbx]                    ; NLM
 140002932 lea     rdx, [rbp+900h+bIsConnected]
