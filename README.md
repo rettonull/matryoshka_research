@@ -358,7 +358,7 @@ COM is initialized in **MATRYKA_12** (summarized because it's not particularly i
 ```
 
 A Network List Manager object is created in **MATRYKA_1a**, 
-with a handle to its INetworkListManager interface obtained:
+with a handle to its **INetworkListManager** interface obtained:
 ```
 1400028F9 xor     edx, edx
 1400028FB mov     [rsp+20h], rbx                ; pNLM
